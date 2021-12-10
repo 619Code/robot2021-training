@@ -21,7 +21,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final LoggingSubsystem loggingSubsystem = new LoggingSubsystem();
 
-  private final LogCommand logCommand = new LogCommand(loggingSubsystem);
+  private final LogCommand bButtonDown = new LogCommand(loggingSubsystem, "B Button Down");
 
   private XboxController driverController;
 
@@ -41,7 +41,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     System.out.println("Configuring Bindings");
     JoystickButton bButton = new JoystickButton(driverController, XboxController.Button.kB.value);
-    bButton.whileHeld(logCommand);    
+    bButton.whileHeld(bButtonDown);    
   }
 
   /**
@@ -51,6 +51,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return logCommand;
+    return bButtonDown;
   }
 }

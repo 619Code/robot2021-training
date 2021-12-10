@@ -12,12 +12,14 @@ public class LogCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LoggingSubsystem m_subsystem;
 
+  private String logText; 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LogCommand(LoggingSubsystem subsystem) {
+  public LogCommand(LoggingSubsystem subsystem, String logText) {
+    this.logText = logText;
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -29,7 +31,9 @@ public class LogCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_subsystem.logText(this.logText);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
