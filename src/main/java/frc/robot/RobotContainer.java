@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.LogCommand;
+import frc.robot.commands.SetMotorSpeedCommand;
 import frc.robot.subsystems.LoggingSubsystem;
+import frc.robot.subsystems.MainMotorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -27,8 +29,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    var mainMotorSubsystem = new MainMotorSubsystem();
     driverController = new XboxController(0);
+    
     // Configure the button bindings
+    mainMotorSubsystem.setDefaultCommand(new SetMotorSpeedCommand(mainMotorSubsystem, driverController));
     configureButtonBindings();
   }
 
