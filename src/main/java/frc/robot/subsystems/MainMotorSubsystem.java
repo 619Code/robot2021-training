@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,9 +17,14 @@ public class MainMotorSubsystem extends SubsystemBase {
 
   private CANSparkMax mainMotor;
   private final int MainMotorIndex = 10;
+  private DigitalInput cutOff;
 
   /** Creates a new ExampleSubsystem. */
   public MainMotorSubsystem() {
+
+    // Initializes a DigitalInput on DIO
+    cutOff = new DigitalInput(0);
+
     mainMotor = new CANSparkMax(MainMotorIndex, MotorType.kBrushless);
     mainMotor.restoreFactoryDefaults();
 
@@ -28,6 +34,13 @@ public class MainMotorSubsystem extends SubsystemBase {
   }
 
   public void SetSpeed(double speed) {
+
+    var cutOffState = !this.cutOff.get();
+    if (cutOffState)
+    {
+      this.mainMotor.set(0);
+      return;
+    }
 
     if (speed < -1 || speed > 1)
       SmartDashboard.putString("Speed must be between -1 and 1", "Error");
